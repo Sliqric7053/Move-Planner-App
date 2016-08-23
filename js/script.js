@@ -22,7 +22,7 @@ function loadData() {
     $greeting.text('So you want to live at ' + address.toUpperCase() + '?');
 
     //setup src
-    var src = 'http://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + address + '';
+    var src = 'https://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + address + '';
     // console.log(src);
 
     //append <img> to the page
@@ -68,7 +68,7 @@ function loadData() {
       for (var i = 0; i < articleList.length; i++) {
         articleStr = articleList[i];
         // console.log('articleStr: ' + articleStr);
-        var url = 'http://en.wikipedia.org/wiki/' + articleStr;
+        var url = 'https://en.wikipedia.org/wiki/' + articleStr;
         // console.log('url: ' + url);
         $wikiElem.append('<li><a href="' + url + '">' + articleStr + '</a></li>');
       };
