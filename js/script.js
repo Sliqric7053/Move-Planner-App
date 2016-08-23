@@ -22,7 +22,7 @@ function loadData() {
     $greeting.text('So you want to live at ' + address.toUpperCase() + '?');
 
     //setup src
-    var src = 'https://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + address + '';
+    var src = 'http://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + address + '';
     // console.log(src);
 
     //append <img> to the page
