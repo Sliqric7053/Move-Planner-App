@@ -49,7 +49,7 @@ function loadData() {
   });
 
   //do $.ajax and add wikipedia articles
-  var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + city + '&format=json&callback=wikiCallback';
+  var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + city + '&format=json&callback=wikiCallback';
   // console.log('wikiUrl: ' + wikiUrl);
 
   // create a setTimeout to handle errors
