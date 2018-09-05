@@ -14,7 +14,7 @@ function loadData() {
     $nytElem.text("");
 
     // load streetview
-    var apikey = '&key=AIzaSyCzu6WxG9fwKEjct2c-iG2amQgHuf_d2-I';
+    var apikey = 'f14a4de199f441e18ac07aa456801202';
     var street = $street.val();
     var city = $city.val();
     var address = street + ', ' + city;
