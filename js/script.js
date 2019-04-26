@@ -1,60 +1,74 @@
-
 function loadData() {
+  const $body = $('body');
+  const $wikiElem = $('#wikipedia-links');
+  const $nytHeaderElem = $('#nytimes-header');
+  const $nytElem = $('#nytimes-articles');
+  const $greeting = $('#greeting');
+  const $street = $('#street');
+  const $city = $('#city');
 
-    var $body          = $('body');
-    var $wikiElem      = $('#wikipedia-links');
-    var $nytHeaderElem = $('#nytimes-header');
-    var $nytElem       = $('#nytimes-articles');
-    var $greeting      = $('#greeting');
-    var $street        = $('#street');
-    var $city          = $('#city');
+  // clear out old data before new request
+  $wikiElem.text('');
+  $nytElem.text('');
 
-    // clear out old data before new request
-    $wikiElem.text("");
-    $nytElem.text("");
+  // load streetview
+  const apikey = 'tIeCgw4YfyqUOqfzPRQks8z8I2tjGGZn';
+  const city = $city.val();
+  const address = city;
 
-    // load streetview
-    var apikey = 'f14a4de199f441e18ac07aa456801202';
-    var street = $street.val();
-    var city = $city.val();
-    var address = street + ', ' + city;
+  $greeting.text('So you want to live in ' + address.toUpperCase() + '?');
 
-    $greeting.text('So you want to live at ' + address.toUpperCase() + '?');
+  //setup src
+  const src =
+    'http://maps.googleapis.com/maps/api/streetview?size=600x300&location=' +
+    address +
+    '';
 
-    //setup src
-    var src = 'http://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + address + '';
-    // console.log(src);
+  const unsplashUrl = 'https://source.unsplash.com/daily?city,';
+  const backgroundImage = unsplashUrl + city.replace(/\s/g, '').toUpperCase();
 
-    //append <img> to the page
-    $body.append('<img class="bgimg" src= "' + src + '">');
+  //append <img> to the page
+  $body.append('<img class="bgimg" src= "' + backgroundImage + '">');
 
+  const nyTimesUrl = `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${city}&api-key=${apikey}
+  `;
 
-
-    //do $.getJSON and add NYT articles
-    var nyTimesUrl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + city + '&sort=newest' + apikey;
-    // console.log(nyTimesUrl);
-    $.getJSON(nyTimesUrl, function(data) {
-      // console.log(data);
-      $nytHeaderElem.text('New York Times Articles About: ' + city.toUpperCase());
+  $.getJSON(nyTimesUrl, function(data) {
+    $nytHeaderElem.text('New York Times Articles About: ' + city.toUpperCase());
 
     articles = data.response.docs;
-    for (var i = 0; i < articles.length; i++) {
-      var article = articles[i];
-      $nytElem.append('<li class="article">' + '<a href="' + article.web_url + '">' + article.headline.main + '</a>' +
-                      '<p>' + article.snippet + '</p>' + '</li>');
+    for (let i = 0; i < articles.length; i++) {
+      const article = articles[i];
+      $nytElem.append(
+        '<li class="article">' +
+          '<a href="' +
+          article.web_url +
+          '">' +
+          article.headline.main +
+          '</a>' +
+          '<p>' +
+          article.snippet +
+          '</p>' +
+          '</li>'
+      );
     }
   }).error(function(err) {
-      $nytHeaderElem.text('New York Times Articles About ' + city.toUpperCase() + ' Could Not Be Loaded');
-
+    $nytHeaderElem.text(
+      'New York Times Articles About ' +
+        city.toUpperCase() +
+        ' Could Not Be Loaded'
+    );
   });
 
   //do $.ajax and add wikipedia articles
-  var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + city + '&format=json&callback=wikiCallback';
-  // console.log('wikiUrl: ' + wikiUrl);
+  const wikiUrl =
+    'https://en.wikipedia.org/w/api.php?action=opensearch&search=' +
+    city +
+    '&format=json&callback=wikiCallback';
 
   // create a setTimeout to handle errors
-  var wikiRequestTimeout = setTimeout(function() {
-    $wikiElem.text('Failed to get Wikipedia resources! Try again later..')
+  const wikiRequestTimeout = setTimeout(function() {
+    $wikiElem.text('Failed to get Wikipedia resources! Try again later..');
   }, 8000);
 
   $.ajax({
@@ -62,23 +76,23 @@ function loadData() {
     dataType: 'jsonp',
     // jsonp: 'callback', --> explanation: some api require you use a different name for the callback function. But by default, setting dataType: 'jsonp' sets jsonp: 'callback' hence this line parameter is redundant
     success: function(response) {
-      // console.log('response: ' + response);
-      var articleList = response[1];
+      const articleList = response[1];
 
-      for (var i = 0; i < articleList.length; i++) {
+      for (let i = 0; i < articleList.length; i++) {
         articleStr = articleList[i];
         // console.log('articleStr: ' + articleStr);
-        var url = 'https://en.wikipedia.org/wiki/' + articleStr;
+        const url = 'https://en.wikipedia.org/wiki/' + articleStr;
         // console.log('url: ' + url);
-        $wikiElem.append('<li><a href="' + url + '">' + articleStr + '</a></li>');
-      };
+        $wikiElem.append(
+          '<li><a href="' + url + '">' + articleStr + '</a></li>'
+        );
+      }
       //clear setTimeout so the $wikiElem does not get overwritten
       clearTimeout(wikiRequestTimeout);
-    }
+    },
   });
 
-
   return false;
-};
+}
 
 $('#form-container').submit(loadData);
