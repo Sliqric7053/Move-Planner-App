@@ -1,0 +1,31 @@
+{
+  "name": "move-planner-app",
+  "version": "1.0.0",
+  "description": "Your moving companion",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel serve index.html --port 1111",
+    "build": "parcel build index.html --no-minify --out-dir ./docs/",
+    "local": "npx http-server ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sliqric7053/Move-Planner-App.git"
+  },
+  "keywords": [
+    "travel"
+  ],
+  "author": "Richard Sithole",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sliqric7053/Move-Planner-App/issues"
+  },
+  "homepage": "https://github.com/Sliqric7053/Move-Planner-App#readme",
+  "dependencies": {
+    "parcel-bundler": "^1.12.3"
+  },
+  "browserslist": [
+    "last 1 Chrome version"
+  ]
+}
