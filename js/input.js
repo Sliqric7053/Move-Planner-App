@@ -5,6 +5,8 @@ export default class CreateHTML {
   }
 
   async getArticlesData() {
+    let loader = document.getElementById('loader').style;
+    loader.display = 'block';
     const nyTimesUrl = await fetch(
       `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${
         this.cityName
@@ -28,6 +30,8 @@ export default class CreateHTML {
     const newYorkArticles = newYorkdata['response']['docs'];
     const wikiArticles = await wikiPediaUrl.json();
     const wikiImages = await wikiImageUrl.json();
+
+    loader.display = 'none';
 
     // Populate HTML
     this.updateUI(newYorkArticles, wikiArticles, wikiImages);
