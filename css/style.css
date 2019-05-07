@@ -87,7 +87,8 @@ h1 {
   margin: 25% 0;
 }
 
-h2 {
+h2,
+h3 {
   font-size: 30px;
   text-align: center;
   font-family: helvetica, sans-serif;
@@ -103,7 +104,8 @@ h2 {
   body {
     background-size: cover;
   }
-  h2 {
+  h2,
+  h3 {
     font-size: 20px;
   }
   .search-header input,
@@ -137,6 +139,7 @@ img {
   width: 80%;
   margin: auto;
   padding: 10%;
+  overflow-x: hidden;
 }
 @media (max-width: 640px) {
   .content-wrapper {
