@@ -152,27 +152,11 @@ class CreateHTML {
   updateUI(newYorkArticles, wikiArticles, wikiImages) {
     let heading = document.createElement('h1');
     let section = document.getElementById('main');
-    let divWrapper = document.createElement('div');
-    let divContentWrapper = document.createElement('div');
-    let divImageLeft = document.createElement('div');
-    let divImageCentre = document.createElement('div');
-    let divImageRight = document.createElement('div');
-    let p0 = document.createElement('p');
-    let p1 = document.createElement('p');
-    let p2 = document.createElement('p');
-    let p3 = document.createElement('p');
-    let p4 = document.createElement('p');
-    let p5 = document.createElement('p');
-    let p6 = document.createElement('p');
-    let p7 = document.createElement('p');
-    let p8 = document.createElement('p');
-    let p9 = document.createElement('p');
-    let p10 = document.createElement('p');
-    let p11 = document.createElement('p');
-    let p12 = document.createElement('p');
-    let p13 = document.createElement('p');
-    let p14 = document.createElement('p');
-    let p15 = document.createElement('p');
+    let divWrapper = this.createElementWithClass('div', 'wrapper');
+    let divContentWrapper = this.createElementWithClass('div', 'content-wrapper');
+    let divImageLeft = this.createElementWithClass('div', 'image-left');
+    let divImageCentre = this.createElementWithClass('div', 'image-center');
+    let divImageRight = this.createElementWithClass('div', 'image-right');
     let imgLeft = document.createElement('img');
     let imgCentre = document.createElement('img');
     let imgRight = document.createElement('img');
@@ -201,8 +185,8 @@ class CreateHTML {
 
 
     if (newYorkArticles.length === 0) {
-      p0.textContent = 'No results returned.';
-      section.appendChild(p0);
+      this.addArticleToHTML('h2', 'This plane is not taking off! 😔', section);
+      this.addArticleToHTML('h2', '(search again)', section);
     } else {
       if (newYorkArticle.multimedia.length > 0 && newYorkArticle1.multimedia.length > 0 && newYorkArticle2.multimedia.length > 0) {
         imgLeft.src = `http://www.nytimes.com/${newYorkArticle.multimedia[0].url}`;
@@ -223,11 +207,8 @@ class CreateHTML {
       if (wikiImages.query.pages[0].original) {
         imgCentre.src = wikiImages.query.pages[0].original.source;
         imgCentre.alt = wikiImages.query.pages[0].terms.description[0];
-      } // Create wrapper divs
+      } // Create heading
 
-
-      divWrapper.setAttribute('class', 'wrapper');
-      divContentWrapper.setAttribute('class', 'content-wrapper'); // Create heading
 
       heading.innerHTML = `So you want to live in ${this.cityName}?`;
       section.appendChild(heading); // Add heading to html
@@ -235,56 +216,81 @@ class CreateHTML {
       section.appendChild(divWrapper);
       divWrapper.appendChild(divContentWrapper); // Add paragraph 1 - 2 to the html
 
-      p1.textContent = wikiArticle1;
-      p2.textContent = wikiArticle2;
-      divContentWrapper.appendChild(p1);
-      divContentWrapper.appendChild(p2); // Add left image div
+      this.addArticleToHTML('p', wikiArticle1, divContentWrapper);
+      this.addArticleToHTML('p', wikiArticle2, divContentWrapper); // Add left image div
 
-      divImageLeft.setAttribute('class', 'image-left');
       divImageLeft.appendChild(imgLeft); // Add left image div footnote
 
       divImageLeft.append(newYorkArticle.lead_paragraph);
       divContentWrapper.appendChild(divImageLeft); // Add paragraph 3 - 7
 
-      p3.textContent = wikiArticle3;
-      p4.textContent = wikiArticle4;
-      p5.textContent = wikiArticle5;
-      p6.textContent = wikiArticle6;
-      p7.textContent = wikiArticle7;
-      divContentWrapper.appendChild(p3);
-      divContentWrapper.appendChild(p4);
-      divContentWrapper.appendChild(p5);
-      divContentWrapper.appendChild(p6);
-      divContentWrapper.appendChild(p7); // Add centre image div
+      this.addArticleToHTML('p', wikiArticle3, divContentWrapper);
+      this.addArticleToHTML('p', wikiArticle4, divContentWrapper);
+      this.addArticleToHTML('p', wikiArticle5, divContentWrapper);
+      this.addArticleToHTML('p', wikiArticle6, divContentWrapper);
+      this.addArticleToHTML('p', wikiArticle7, divContentWrapper); // Add centre image div
 
-      divImageCentre.setAttribute('class', 'image-center');
       divImageCentre.appendChild(imgCentre);
       divContentWrapper.appendChild(divImageCentre); // Add paragraph 8 - 10 to the html
 
-      p8.textContent = wikiArticle8;
-      p9.textContent = wikiArticle9;
-      p10.textContent = wikiArticle10;
-      divContentWrapper.appendChild(p8);
-      divContentWrapper.appendChild(p9);
-      divContentWrapper.appendChild(p10); // Add right image div
+      this.addArticleToHTML('p', wikiArticle8, divContentWrapper);
+      this.addArticleToHTML('p', wikiArticle9, divContentWrapper);
+      this.addArticleToHTML('p', wikiArticle10, divContentWrapper); // Add right image div
 
-      divImageRight.setAttribute('class', 'image-right');
       divImageRight.appendChild(imgRight); // Add right image div footnote
 
       divImageRight.append(newYorkArticle1.lead_paragraph);
       divContentWrapper.appendChild(divImageRight); // Add paragraph 11 - 15 to the html
 
-      p11.textContent = wikiArticle11;
-      p12.textContent = wikiArticle12;
-      p13.textContent = wikiArticle13;
-      p14.textContent = wikiArticle14;
-      p15.textContent = wikiArticle15;
-      divContentWrapper.appendChild(p11);
-      divContentWrapper.appendChild(p12);
-      divContentWrapper.appendChild(p13);
-      divContentWrapper.appendChild(p14);
-      divContentWrapper.appendChild(p15);
+      this.addArticleToHTML('p', wikiArticle11, divContentWrapper);
+      this.addArticleToHTML('p', wikiArticle12, divContentWrapper);
+      this.addArticleToHTML('p', wikiArticle13, divContentWrapper);
+      this.addArticleToHTML('p', wikiArticle14, divContentWrapper);
+      this.addArticleToHTML('p', wikiArticle15, divContentWrapper);
     }
+  }
+  /**
+   * Returns an instance of the element for the specified tag, attached to the specified DIV Node.
+   * @param el String that specifies the element name. Case-insensitive.
+   * @param article String to be attached to the created element.
+   * @param div Node div to attach the created element.
+   */
+
+
+  addArticleToHTML(el, article, div) {
+    let domDIV, domP;
+
+    if (el && typeof el === 'string') {
+      domP = document.createElement(el);
+      domP.textContent = article;
+      domDIV = div.appendChild(domP);
+    } else {
+      throw Error('Element must be a string');
+    }
+
+    return domDIV;
+  }
+  /**
+   * Returns a reference to the Node element with the (optional) class name.
+   * @param el String that specifies the element name. Case-insensitive.
+   * @param className String that specifies the class name. Case-insensitive (optional).
+   */
+
+
+  createElementWithClass(el, className = '') {
+    let domEl;
+
+    if (el && typeof el === 'string') {
+      domEl = document.createElement(el);
+    } else {
+      throw Error('Element must be a string');
+    }
+
+    if (className && typeof className === 'string' && className != '') {
+      domEl.setAttribute('class', className);
+    }
+
+    return domEl;
   }
 
 }
@@ -311,4 +317,4 @@ function main() {
   });
 }
 },{"./input":"vYOj"}]},{},["QvaY"], null)
-//# sourceMappingURL=/js.214be86f.js.map
+//# sourceMappingURL=/js.73ccd225.js.map
